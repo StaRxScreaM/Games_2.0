@@ -1,29 +1,21 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import Vue from 'vue';
+import Router from 'vue-router';
 
-Vue.use(VueRouter)
+const HomeView = () => import('../views/HomeView.vue');
+const AboutView = () => import('../views/AboutView.vue');
+const OpinionView = () => import('../views/OpinionView.vue');
+const AdminView = () => import('../views/AdminView.vue');
+const NotFound = () => import('../views/NotFound.vue');
 
-const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: HomeView
-  },
-  {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
-]
+Vue.use(Router);
 
-const router = new VueRouter({
+export default new Router({
   mode: 'history',
-  base: process.env.BASE_URL,
-  routes
-})
-
-export default router
+  routes: [
+    { path: '/', name: 'Home', component: HomeView },
+    { path: '/about/:id', name: 'About', component: AboutView, props: true },
+    { path: '/opinion/:gameName', name: 'Opinion', component: OpinionView, props: true },
+    { path: '/admin', name: 'Admin', component: AdminView },
+    { path: '*', name: 'NotFound', component: NotFound },
+  ],
+});
